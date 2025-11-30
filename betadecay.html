@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beta Decay — β⁻ and β⁺</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 900px; margin: auto; padding: 20px;background: linear-gradient(135deg, #0f0f0f, #1b1b2f, #16213e);  color: #fff; }
+  h1, h2 { text-align: center; }
+  .definition { background: #fff; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+  .equation { font-family: "Courier New", monospace; background: linear-gradient(135deg, #0f0f0f, #1b1b2f, #16213e);  padding: 6px; border-radius: 4px; display: inline-block; color: #fff;}
+  .image-gallery { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; }
+  .image-gallery img { width: 300px; height: auto; border: 1px solid #ccc; border-radius: 4px; }
+
+  .nav-zone {
+        position: fixed;
+        top: 0;
+        width: 20%;
+        height: 100%;
+        cursor: pointer;
+        z-index: 100;
+    }
+    #leftZone { left: 0; }
+    #rightZone { right: 0; }
+    
+</style>
+</head>
+<body>
+
+  <div id="leftZone" class="nav-zone"></div>
+<div id="rightZone" class="nav-zone"></div>
+
+<h1>Beta Decay (β-decay)</h1>
+
+<div class="definition" style=" background: linear-gradient(135deg, #0f0f0f, #1b1b2f, #16213e); color: #fff;">
+  <p><strong>What is Beta Decay?</strong></p>
+  <p>
+    Beta decay is a type of radioactive decay in which a nucleus transforms a neutron into a proton or a proton into a neutron, emitting a beta particle in the process.
+  </p>
+</div>
+
+<h2>Types of Beta Decay</h2>
+
+<div class="definition"style=" background: linear-gradient(135deg, #0f0f0f, #1b1b2f, #16213e); color: #fff;">
+  <p><strong>1. Beta-minus (β⁻) decay:</strong></p>
+  <p>
+    In β⁻ decay, a neutron is converted into a proton, and an electron (β⁻ particle) and an antineutrino (ν̄ₑ) are emitted.
+  </p>
+  <p><strong>Equation:</strong></p>
+  <p class="equation">
+    n → p⁺ + e⁻ + ν̄ₑ
+  </p>
+  <p>
+    Example: <sup>¹⁴</sup>C → <sup>¹⁴</sup>N + e⁻ + ν̄ₑ
+  </p>
+</div>
+
+<div class="definition" style=" background: linear-gradient(135deg, #0f0f0f, #1b1b2f, #16213e); color: #fff;">
+  <p><strong>2. Beta-plus (β⁺) decay (positron emission):</strong></p>
+  <p>
+    In β⁺ decay, a proton is converted into a neutron, and a positron (β⁺ particle) and a neutrino (νₑ) are emitted.
+  </p>
+  <p><strong>Equation:</strong></p>
+  <p class="equation">
+    p⁺ → n + e⁺ + νₑ
+  </p>
+  <p>
+    Example: <sup>¹¹</sup>C → <sup>¹¹</sup>B + e⁺ + νₑ
+  </p>
+</div>
+
+<h2>Illustrations of Beta Decay</h2>
+<div class="image-gallery">
+  <img src="betadecayimage.jpg" alt="Beta-minus decay diagram" width="300px" height="200px">
+  </div>
+
+<div class="definition" style=" background: linear-gradient(135deg, #0f0f0f, #1b1b2f, #16213e); color: #fff;">
+  <p><strong>Key Points:</strong></p>
+  <ul>
+    <li>Beta decay changes the **atomic number** of a nucleus by ±1 but the **mass number remains the same**.</li>
+    <li>Beta-minus emits an electron and antineutrino; beta-plus emits a positron and neutrino.</li>
+    <li>β⁺ decay can only occur in proton-rich nuclei, β⁻ decay in neutron-rich nuclei.</li>
+    <li>Beta particles are more penetrating than alpha particles but less than gamma rays.</li>
+  </ul>
+</div>
+
+<script>
+
+    // LEFT CLICK → Previous page
+    document.getElementById("leftZone").addEventListener("click", function () {
+        window.location.href = "alphadecay.html"; // ← change to your page
+    });
+
+    // RIGHT CLICK → Next page
+    document.getElementById("rightZone").addEventListener("click", function () {
+        window.location.href = "gammadecay.html"; // ← change to your page
+    });
+</script>
+</body>
+</html>

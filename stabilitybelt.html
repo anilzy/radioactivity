@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Why some neuclei are stable - Stability belt</title>
+<style>
+  :root{
+    --bg:#071021;
+    --fg:#d6e6f6;
+    --belt1: rgba(0,200,255,0.14);
+    --belt2: rgba(0,200,255,0.28);
+    --axis: rgba(214,230,246,0.8);
+    --stable: #7CFC00;
+    --radio: #ff6b6b;
+    --example: #ffd166;
+  }
+  html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Roboto,Arial;}
+  body{background:var(--bg);color:var(--fg);display:flex;flex-direction:column;align-items:center;padding:18px;}
+  h1{margin:0 0 12px;font-size:20px}
+  #canvasWrap{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:12px; border-radius:10px; box-shadow: 0 6px 20px rgba(0,0,0,0.6);}
+  canvas{display:block; border-radius:6px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0));}
+  .legend{display:flex;gap:12px;margin-top:10px;align-items:center;flex-wrap:wrap}
+  .legend .item{display:flex;gap:6px;align-items:center;font-size:13px}
+  .sw{width:14px;height:12px;border-radius:3px;display:inline-block}
+  .tip{position:fixed;pointer-events:none;background:rgba(10,10,12,0.9);color:#fff;padding:8px 10px;border-radius:6px;font-size:13px;transform:translate(-50%,-120%);white-space:nowrap;display:none;z-index:50}
+  .note{max-width:820px;margin-top:12px;color:#bcd3ee;font-size:13px;line-height:1.3}
+  a{color:#9ad6ff}
+
+   .nav-zone {
+        position: fixed;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        cursor: pointer;
+        z-index: 100;
+    }
+    
+     #leftZone { left: 0; }
+    #rightZone { right: 0; }
+</style>
+</head>
+<body>
+
+  <div id="leftZone" class="nav-zone"></div>
+<div id="rightZone" class="nav-zone"></div>
+
+<h1>Why some neuclei are stable - Stability belt</h1>
+<div id="canvasWrap">
+<canvas id="c" width="900" height="620"></canvas>
+</div>
+
+<div class="legend">
+  <div class="item"><span class="sw" style="background:linear-gradient(90deg,var(--belt1),var(--belt2))"></span> Stability belt (approx.)</div>
+  <div class="item"><span class="sw" style="background:var(--stable)"></span> Example stable nuclide</div>
+  <div class="item"><span class="sw" style="background:var(--radio)"></span> Example radioactive nuclide</div>
+  <div class="item"><span class="sw" style="background:var(--example)"></span> Sample points (labels)</div>
+</div>
+
+<div class="note">
+<strong>
+</div>
+
+<div id="tip" class="tip"></div>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const tip = document.getElementById('tip');
+const W = canvas.width, H = canvas.height;
+const padding = {l:72, r:28, t:36, b:72};
+const plotW = W - padding.l - padding.r;
+const plotH = H - padding.t - padding.b;
+
+const maxZ = 100;
+const maxN = 170;
+const lastStableZ = 83;
+
+function zx(z){ return padding.l + (z / maxZ) * plotW; }
+function zy(n){ return padding.t + plotH - (n / maxN) * plotH; }
+
+function centerCurve(Z){
+  const z0 = 18;
+  const rise_scale = 0.75;
+  const s = 1 - Math.exp(-Math.max(0, Z - z0) / 22);
+  return Z + (rise_scale * s * Z);
+}
+
+function beltHalfWidth(Z){
+  return 1.0 + 0.03 * Z;
+}
+
+function drawAxes(){
+  ctx.save();
+  ctx.strokeStyle = 'rgba(214,230,246,0.12)';
+  ctx.fillStyle = 'rgba(214,230,246,0.9)';
+  ctx.lineWidth = 1;
+  ctx.font = '12px Inter, Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+
+  // X-axis ticks every 10 units
+  for(let z=0; z<=lastStableZ; z+=10){
+    const x = zx(z);
+    ctx.beginPath();
+    ctx.moveTo(x, padding.t);
+    ctx.lineTo(x, H - padding.b);
+    ctx.strokeStyle = 'rgba(214,230,246,0.12)';
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(214,230,246,0.9)';
+    ctx.fillText(z, x, H - padding.b + 6);
+  }
+
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+  for(let n=0; n<=maxN; n+=20){
+    const y = zy(n);
+    ctx.beginPath();
+    ctx.moveTo(padding.l, y);
+    ctx.lineTo(W - padding.r, y);
+    ctx.strokeStyle = (n%40===0) ? 'rgba(214,230,246,0.12)' : 'rgba(214,230,246,0.06)';
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(214,230,246,0.9)';
+    ctx.fillText(n, padding.l - 8, y);
+  }
+
+  ctx.save();
+  ctx.fillStyle = 'rgba(214,230,246,0.95)';
+  ctx.font = '13px Inter, Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('Proton number Z', padding.l + plotW/2, H - 22);
+  ctx.translate(14, padding.t + plotH/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.textAlign = 'center';
+  ctx.fillText('Neutron number N', 0, 0);
+  ctx.restore();
+  ctx.restore();
+}
+
+function drawBelt(){
+  ctx.save();
+  const steps = 600;
+  const topPoints = [];
+  const botPoints = [];
+  for(let i=0;i<=steps;i++){
+    let Z = (i/steps)*lastStableZ;
+    const center = centerCurve(Z);
+    const half = beltHalfWidth(Z);
+    topPoints.push({x: zx(Z), y: zy(center + half*2)});
+    botPoints.push({x: zx(Z), y: zy(center - half*2)});
+  }
+
+  const grad = ctx.createLinearGradient(padding.l,0, W - padding.r,0);
+  grad.addColorStop(0, 'rgba(0,180,255,0.06)');
+  grad.addColorStop(0.5, 'rgba(0,220,255,0.12)');
+  grad.addColorStop(1, 'rgba(0,160,255,0.06)');
+
+  ctx.beginPath();
+  for(let p of topPoints) ctx.lineTo(p.x, p.y);
+  for(let i=botPoints.length-1;i>=0;i--) ctx.lineTo(botPoints[i].x, botPoints[i].y);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  ctx.beginPath();
+  for(let i=0;i<=steps;i++){
+    const Z = (i/steps)*lastStableZ;
+    const x = zx(Z), y = zy(centerCurve(Z));
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.lineWidth = 1.4;
+  ctx.strokeStyle = 'rgba(180,230,255,0.95)';
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawRegionLabels(){
+  ctx.save();
+  ctx.fillStyle = 'rgba(250,200,200,0.07)';
+  ctx.fillRect(padding.l, padding.t, plotW, plotH/3.5);
+  ctx.fillStyle = 'rgba(200,250,250,0.02)';
+  ctx.fillRect(padding.l, padding.t + plotH*0.6, plotW, plotH*0.4);
+
+  ctx.fillStyle = 'rgba(255,180,180,0.9)';
+  ctx.font = '14px Inter, Arial';
+  ctx.textAlign = 'left';
+  ctx.fillText('Proton-rich (β⁺ / EC) — below band', padding.l + 6, H - padding.b - 46);
+  ctx.textAlign = 'right';
+  ctx.fillStyle = 'rgba(180,255,200,0.95)';
+  ctx.fillText('Neutron-rich (β⁻) — above band',W - padding.r - 6, padding.t + 8);
+  ctx.restore();
+}
+
+const examples = [
+  {Z:1, N:0, label:'¹H', stable:true, note:'Hydrogen-1 (proton) — stable'},
+  {Z:1, N:1, label:'²H', stable:true, note:'Deuterium — stable'},
+  {Z:2, N:2, label:'⁴He', stable:true, note:'Helium-4 — very stable'},
+  {Z:6, N:6, label:'¹²C', stable:true, note:'Carbon-12 — stable'},
+  {Z:8, N:8, label:'¹⁶O', stable:true, note:'Oxygen-16 — stable'},
+  {Z:26, N:30, label:'⁵⁶Fe', stable:true, note:'Iron-56 — very stable nucleus'},
+  {Z:29, N:34, label:'⁶³Cu', stable:true, note:'Copper-63 — stable'},
+  
+  {Z:20, N:20, label:'⁴⁰Ca', stable:true, note:'Calcium-40 — near diagonal (example)'},
+  {Z:8, N:12, label:'²⁰O (n-rich)', stable:false, note:'Neutron-rich example (likely β⁻)'},
+  {Z:50, N:69, label:'¹¹⁹Sn (n-rich)', stable:false, note:'Often β⁻ emitter (example)'},
+  {Z:92, N:143, label:'²³⁵U', stable:false, note:'Uranium-235 — radioactive (alpha & fission)'}
+];
+
+function drawExamples(mouse){
+  ctx.save();
+  for(let ex of examples){
+    const x = zx(ex.Z);
+    const y = zy(ex.N);
+    ctx.beginPath();
+    ctx.arc(x,y,6,0,Math.PI*2);
+    ctx.fillStyle = ex.stable ? 'rgba(124,252,0,0.95)' : 'rgba(255,107,107,0.95)';
+    ctx.fill();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(20,20,30,0.6)';
+    ctx.stroke();
+
+    ctx.font = '12px Inter, Arial';
+    ctx.fillStyle = 'rgba(255, 209, 102, 0.95)';
+    ctx.textAlign = 'left';
+    ctx.fillText(ex.label, x + 8, y - 6);
+
+    if(mouse){
+      const dx = mouse.x - x, dy = mouse.y - y;
+      if(Math.sqrt(dx*dx + dy*dy) < 8){
+        showTip(mouse.canvasX, mouse.canvasY, `${ex.label} — Z=${ex.Z}, N=${ex.N}<br>${ex.note}`);
+      }
+    }
+  }
+  ctx.restore();
+}
+
+function showTip(cx, cy, html){
+  tip.style.display = 'block';
+  tip.innerHTML = html;
+  tip.style.left = cx + 'px';
+  tip.style.top = cy + 'px';
+}
+function hideTip(){ tip.style.display = 'none'; }
+
+function render(mouse){
+  ctx.clearRect(0,0,W,H);
+  drawAxes();
+  drawBelt();
+  drawRegionLabels();
+  drawExamples(mouse);
+}
+
+let mouse = null;
+canvas.addEventListener('mousemove', (ev)=>{
+  const rect = canvas.getBoundingClientRect();
+  const cx = ev.clientX - rect.left;
+  const cy = ev.clientY - rect.top;
+  mouse = {canvasX: ev.clientX, canvasY: ev.clientY, x: cx, y: cy};
+  render(mouse);
+});
+canvas.addEventListener('mouseleave', ()=>{ mouse = null; hideTip(); render(); });
+canvas.addEventListener('click', (ev)=>{
+  const rect = canvas.getBoundingClientRect();
+  const cx = ev.clientX - rect.left;
+  const cy = ev.clientY - rect.top;
+  const approxZ = Math.round(( (cx - padding.l) / plotW) * lastStableZ);
+  const approxN = Math.round( ((padding.t + plotH - cy) / plotH) * maxN );
+  showTip(ev.clientX, ev.clientY, `Z≈${approxZ}, N≈${approxN}<br>Center N at Z=${approxZ}: ${centerCurve(approxZ).toFixed(1)}`);
+});
+
+render();
+
+// LEFT CLICK → Previous page
+    document.getElementById("leftZone").addEventListener("click", function () {
+        window.location.href = "introduction.html"; // ← change to your page
+    });
+
+    // RIGHT CLICK → Next page
+    document.getElementById("rightZone").addEventListener("click", function () {
+        window.location.href = "alphadecay.html"; // ← change to your page
+    });
+</script>
+</body>
+</html>

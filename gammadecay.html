@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gamma Decay</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #0f0f0f, #1b1b2f, #16213e); 
+    color: #111
+  }
+  h1, h2 { text-align: center; }
+  .box {
+ background: linear-gradient(135deg, #0f0f0f, #1b1b2f, #16213e); 
+ color: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+  img {
+    display: block;
+    margin: 15px auto;
+    width: 350px;
+    max-width: 90%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  .nav-zone {
+        position: fixed;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        cursor: pointer;
+        z-index: 100;
+    }
+    #leftZone { left: 0; }
+    #rightZone { right: 0; }
+
+</style>
+</head>
+<body>
+<div id="leftZone" class="nav-zone"></div>
+<div id="rightZone" class="nav-zone"></div>
+
+<h1 style="color: #fff;">Gamma Decay (γ-decay)</h1>
+
+<div class="box">
+  <p><strong>What is Gamma Decay?</strong></p>
+  <p>
+   After a nucleus undergoes alpha or beta decay, the daughter nucleus is often left with extra energy. To become fully stable, it releases this excess energy in the form of gamma rays, which are high-energy electromagnetic waves. This process is called gamma decay.
+  </p>
+  <p>
+    No protons or neutrons are lost — only energy is released.
+  </p>
+</div>
+
+<script>
+   document.getElementById("leftZone").addEventListener("click", function () {
+        window.location.href = "betadecay.html"; // ← change to your page
+    });
+
+    // RIGHT CLICK → Next page
+    document.getElementById("rightZone").addEventListener("click", function () {
+        window.location.href = "thankyou.html"; // ← change to your page
+    });
+</script>
+</body>
+</html>

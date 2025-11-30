@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Introduction to Radioactive Decay</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #0f0f0f, #1b1b2f, #16213e);
+        color: #ffffff;
+        overflow-x: hidden;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 60px auto;
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.07);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 
+            0 0 25px rgba(0, 255, 255, 0.15),
+            inset 0 0 20px rgba(255, 255, 255, 0.03);
+        transform: perspective(1000px) rotateX(2deg);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 3rem;
+        color: #4fd6e8;
+        text-shadow: 0 0 10px rgba(79, 214, 232, 0.4);
+        margin-bottom: 30px;
+    }
+
+    p, li {
+        line-height: 1.7;
+        font-size: 1.15rem;
+    }
+
+    .highlight {
+        color: #4fd6e8;
+        font-weight: bold;
+        text-shadow: 0 0 3px rgba(79, 214, 232, 0.25);
+    }
+
+    .diagram {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .box {
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        width: 220px;
+        text-align: center;
+        box-shadow:
+            0 0 12px rgba(79, 214, 232, 0.25),
+            inset 0 0 12px rgba(255, 255, 255, 0.08);
+        transform: perspective(800px) rotateY(-10deg);
+        transition: 0.4s;
+    }
+
+    .box:hover {
+        transform: perspective(800px) rotateY(0deg) scale(1.05);
+        box-shadow:
+            0 0 20px rgba(79, 214, 232, 0.4),
+            inset 0 0 18px rgba(255, 255, 255, 0.15);
+    }
+
+    /* Invisible zones for left–right click detection */
+    .nav-zone {
+        position: fixed;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        cursor: pointer;
+        z-index: 100;
+    }
+    #leftZone { left: 0; }
+    #rightZone { right: 0; }
+</style>
+</head>
+<body>
+
+<!-- CLICKABLE NAVIGATION ZONES -->
+<div id="leftZone" class="nav-zone"></div>
+<div id="rightZone" class="nav-zone"></div>
+
+<div class="container">
+    <h1>Radioactive Decay – Introduction</h1>
+
+    <p>
+        The unstable atomic nuclei achieve stability by emitting
+        <span class="highlight">α-particles</span>, <span class="highlight">β-particles</span>, or 
+        <span class="highlight">γ-rays</span>.
+    </p>
+
+    <p>
+        This spontaneous emission of particles or radiation from unstable nuclei is known as 
+        <span class="highlight">Radioactivity</span>.
+    </p>
+
+    <p>
+        Radioactivity is purely a <span class="highlight">nuclear phenomenon</span>. 
+        The rate of emission depends only on the number of unstable nuclei and is 
+        <span class="highlight">unaffected</span> by temperature, pressure, or chemical reactions.
+    </p>
+
+    <p>
+        Radioactivity was discovered accidentally in <span class="highlight">1896</span> by 
+        <span class="highlight">Henri Becquerel</span>.
+    </p>
+
+    <div class="diagram">
+        <div class="box">
+            <h3>Uranium</h3>
+            <p>Stored under black paper</p>
+        </div>
+        <div class="box">
+            <h3>Silver Foil</h3>
+            <p>Placed between uranium & plate</p>
+        </div>
+        <div class="box">
+            <h3>Photographic Plate</h3>
+            <p>Recorded unexpected radiation marks</p>
+        </div>
+    </div> 
+
+</div>
+
+<footer></footer>
+
+<script>
+    // LEFT CLICK → Previous page
+    document.getElementById("leftZone").addEventListener("click", function () {
+        window.location.href = "welcome.html"; // ← change to your page
+    });
+
+    // RIGHT CLICK → Next page
+    document.getElementById("rightZone").addEventListener("click", function () {
+        window.location.href = "stabilitybelt.html"; // ← change to your page
+    });
+</script>
+
+</body>
+</html>

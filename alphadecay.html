@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF‑8">
+  <meta name="viewport" content="width=device-width, initial‑scale=1.0">
+  <title>Alpha Decay — What is it?</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px;  background: linear-gradient(135deg, #0f0f0f, #1b1b2f, #16213e); color: #111;}
+    h1 { text-align: center; }
+    .image‑gallery { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .image‑gallery img { width: 240px; height: auto; border: 1px solid #ccc; border-radius: 4px; }
+    .definition { background: #fff; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .equation { font-family: "Courier New", monospace; background: #111; padding: 6px; border-radius: 4px; display: inline-block; color:"white"}
+
+    .nav-zone {
+        position: fixed;
+        top: 0;
+        width: 20%;
+        height: 100%;
+        cursor: pointer;
+        z-index: 100;
+    }
+    
+     #leftZone { left: 0; }
+    #rightZone { right: 0; }
+
+  </style>
+</head>
+<body>
+
+  <div id="leftZone" class="nav-zone"></div>
+<div id="rightZone" class="nav-zone"></div>
+
+  <h1 style="color: white;">Alpha Decay (α‑decay)</h1>
+
+  <div class="definition" style=" background: linear-gradient(135deg, #0f0f0f, #1b1b2f, #16213e); color: white;">
+    <p><strong>What is alpha decay?</strong></p>
+    <p>
+      Alpha decay is a type of radioactive decay in which an unstable atomic nucleus emits an <strong>alpha particle</strong>. An alpha particle is identical to the nucleus of a helium‑4 atom — it contains <strong>2 protons and 2 neutrons</strong>. :contentReference[oaicite:1]{index=1}
+    </p>
+    <p>
+      As a result of the emission:
+      <ul>
+        <li>The atomic number (number of protons) of the original nucleus decreases by 2.</li>
+        <li>The mass number (total number of protons + neutrons) decreases by 4. </li>
+      </ul>
+    </p>
+    <p><strong>General nuclear equation:</strong></p>
+    <p class="equation">
+      <sup>A</sup><sub>Z</sub>X → <sup>A‑4</sup><sub>Z‑2</sub>Y + <sup>4</sup><sub>2</sub>He
+    </p>
+    <p>For example:</p>
+    <p class="equation">⁺²³⁸U → ²³⁴Th + ⁴He</p> 
+    <p >
+      The emission of the alpha particle allows the original heavy nucleus to move toward a more stable configuration by shedding excess mass and protons. 
+    </p>
+  </div>
+
+  <h2 style="color: white;">Illustrations of Alpha Decay</h2>
+  <div class="image‑gallery">
+    <img src="alphadecay.jpg" width="1200" height="auto">
+   </div>
+
+  <p style="font-size: 0.9em; color: #fff;">
+    The above images show a simplified view of alpha decay: a heavy nucleus ejecting an alpha particle (helium‑4 nucleus), and how the original atom transforms into a different, lighter atom.
+  </p>
+
+  <h2 style="color: white;">Why alpha decay occurs</h2>
+  <p style="color: white;">
+    Very heavy nuclei (with many protons and neutrons) tend to be unstable because the repulsive electromagnetic force between protons becomes strong compared to the nuclear binding force. By ejecting an alpha particle, the nucleus reduces both the number of protons and neutrons — which helps it become more stable. 
+<script>
+   document.getElementById("leftZone").addEventListener("click", function () {
+        window.location.href = "stabilitybelt.html"; // ← change to your page
+    });
+
+    // RIGHT CLICK → Next page
+    document.getElementById("rightZone").addEventListener("click", function () {
+        window.location.href = "betadecay.html"; // ← change to your page
+    });
+</script>
